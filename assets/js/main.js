@@ -310,3 +310,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 });
+
+
+// Make whole card clickable except the link
+document.querySelectorAll(".card-click").forEach(card => {
+  card.addEventListener("click", function(e) {
+    
+    // If clicked on button, do nothing here (let button work)
+    if (e.target.classList.contains("project-link")) return;
+    
+    // Find the "View Details" button inside card
+    const btn = card.querySelector(".project-link.open-modal");
+    if (btn) btn.click(); // trigger original modal function
+  });
+});
