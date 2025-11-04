@@ -119,6 +119,49 @@
     });
   });
 
+
+// Skills Filter Tabs
+document.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll(".tab");
+  const cards = document.querySelectorAll(".skill-card");
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+
+      const filter = tab.dataset.filter;
+
+      // Hide animation
+      cards.forEach(card => {
+        card.classList.add("hide");
+        setTimeout(() => {
+          if (filter === "all" || card.classList.contains(filter)) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        }, 200);
+      });
+
+      // Show animation (stagger)
+      setTimeout(() => {
+        let delay = 0;
+        cards.forEach(card => {
+          if (filter === "all" || card.classList.contains(filter)) {
+            setTimeout(() => {
+              card.classList.remove("hide");
+              card.classList.add("show");
+            }, delay);
+            delay += 120;
+          }
+        });
+      }, 220);
+    });
+  });
+});
+
+
   /**
    * Initiate glightbox
    */
@@ -219,3 +262,51 @@
   document.addEventListener('scroll', navmenuScrollspy);
 
 })();
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  const modal = document.getElementById("projectModal");
+  const closeBtn = document.querySelector(".project-close");
+
+  // ✅ Open Modal with animation
+  document.querySelectorAll(".open-modal").forEach(button => {
+    button.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      document.getElementById("projectModalTitle").textContent = this.dataset.title;
+      document.getElementById("projectModalImg").src = this.dataset.img;
+      document.getElementById("projectModalDesc").textContent = this.dataset.desc;
+
+      let techHTML = "";
+      this.dataset.tech.split(",").forEach(t => techHTML += `<span>${t}</span>`);
+      document.getElementById("projectModalTech").innerHTML = techHTML;
+
+      document.getElementById("projectModalDemo").href = this.dataset.demo;
+
+      // ✅ Animation open code
+      modal.classList.add("show");
+      modal.style.display = "flex";
+    });
+  });
+
+  // ✅ Close modal function (with animation)
+  function closeModal() {
+    modal.classList.remove("show");
+    modal.classList.add("hide");
+
+    setTimeout(() => {
+      modal.style.display = "none";
+      modal.classList.remove("hide");
+    }, 250);
+  }
+
+  // ✅ Close button click
+  closeBtn.addEventListener("click", closeModal);
+
+  // ✅ Click outside to close
+  window.addEventListener("click", function(e) {
+    if (e.target === modal) closeModal();
+  });
+
+});

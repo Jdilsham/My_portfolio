@@ -634,6 +634,36 @@ section,
   line-height: 0;
 }
 
+/* View CV Button */
+.view-cv-btn {
+  background: linear-gradient(135deg,#0dd6b8,#1da2c6);
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+}
+
+.view-cv-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  transition: 0.3s;
+}
+
+/* Download CV Button */
+.download-cv-btn {
+  background: linear-gradient(135deg,#1cbf50,#0aa43a);
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+}
+
+.download-cv-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+  transition: 0.3s;
+}
+
 /*--------------------------------------------------------------
 # Stats Section
 --------------------------------------------------------------*/
@@ -670,38 +700,68 @@ section,
 /*--------------------------------------------------------------
 # Skills Section
 --------------------------------------------------------------*/
-.skills .progress {
-  height: 60px;
-  display: block;
-  background: none;
-  border-radius: 0;
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 18px;
+  margin-top: 30px;
 }
 
-.skills .progress .skill {
-  color: var(--heading-color);
-  padding: 0;
-  margin: 0 0 6px 0;
-  text-transform: uppercase;
-  display: block;
+.skill-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 18px 10px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.25);
+  transition: transform .3s ease, box-shadow .3s ease;
+  cursor: pointer;
+  animation: fadeUp .6s ease forwards;
+  opacity: 0;
+  object-fit: contain;
+}
+
+.skill-card img {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 8px;
+  transition: transform .25s;
+}
+
+.skill-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.13);
+}
+
+.skill-card:hover img {
+  transform: scale(1.15);
+}
+
+.skill-tabs {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.skill-tabs .tab {
+  padding: 8px 18px;
+  margin: 3px;
+  border-radius: 22px;
+  background: #e7e7e7;
+  border: none;
+  cursor: pointer;
   font-weight: 600;
-  font-family: var(--heading-font);
+  transition: .25s;
 }
 
-.skills .progress .skill .val {
-  float: right;
-  font-style: normal;
+.skill-tabs .tab.active,
+.skill-tabs .tab:hover {
+  background: linear-gradient(135deg, #007bff, #00d4ff);
+  color: white;
 }
 
-.skills .progress-bar-wrap {
-  background: color-mix(in srgb, var(--default-color), transparent 90%);
-  height: 10px;
-}
-
-.skills .progress-bar {
-  width: 1px;
-  height: 10px;
-  transition: 0.9s;
-  background-color: var(--accent-color);
+@keyframes fadeUp {
+  from {opacity:0; transform: translateY(12px);}
+  to {opacity:1; transform: translateY(0);}
 }
 
 /*--------------------------------------------------------------
@@ -764,116 +824,226 @@ section,
 }
 
 /*--------------------------------------------------------------
-# Portfolio Section
+# Portfolio Section — FINAL CLEAN VERSION
 --------------------------------------------------------------*/
-.portfolio .portfolio-filters {
-  padding: 0;
-  margin: 0 auto 20px auto;
-  list-style: none;
-  text-align: center;
+
+/* ===== Grid layout (3 cards per row) ===== */
+.col-lg-4.col-md-6 {
+  flex: 0 0 calc(33.333% - 20px);
+  max-width: calc(33.333% - 20px);
+  margin-bottom: 20px;
 }
 
-.portfolio .portfolio-filters li {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0;
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0 10px;
-  line-height: 1;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  transition: all 0.3s ease-in-out;
-}
-
-.portfolio .portfolio-filters li:hover,
-.portfolio .portfolio-filters li.filter-active {
-  color: var(--accent-color);
-}
-
-.portfolio .portfolio-filters li:first-child {
-  margin-left: 0;
-}
-
-.portfolio .portfolio-filters li:last-child {
-  margin-right: 0;
-}
-
-@media (max-width: 575px) {
-  .portfolio .portfolio-filters li {
-    font-size: 14px;
-    margin: 0 5px;
-  }
-}
-
-.portfolio .portfolio-content {
-  position: relative;
+/* ===== Project Card ===== */
+.project-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.06);
+  transition: 0.25s ease;
   overflow: hidden;
+  cursor: pointer;
 }
 
-.portfolio .portfolio-content img {
-  transition: 0.3s;
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
 }
 
-.portfolio .portfolio-content .portfolio-info {
-  opacity: 0;
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  transition: all ease-in-out 0.3s;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 15px;
+/* ===== Card Image ===== */
+.project-img {
+  width: 100%;
+  height: 210px !important; /* bigger image */
+  object-fit: cover;
+  border-radius: 12px;
+  transition: 0.3s ease;
 }
 
-.portfolio .portfolio-content .portfolio-info h4 {
+.project-card:hover .project-img {
+  transform: scale(1.045);
+  opacity: 0.92;
+}
+
+/* ===== Card Content ===== */
+.project-content {
+  padding: 15px 10px;
+}
+
+.project-content h4 {
+  font-size: 19px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.project-content p {
   font-size: 14px;
-  padding: 5px 10px;
-  font-weight: 400;
-  color: #ffffff;
-  display: inline-block;
-  background-color: var(--accent-color);
+  color: #333;
+  margin-bottom: 12px;
+  line-height: 1.45;
 }
 
-.portfolio .portfolio-content .portfolio-info p {
-  position: absolute;
-  bottom: 10px;
-  text-align: center;
+/* ===== Tech Tags ===== */
+.tech-tags span {
+  background: #eaf6ef;
+  color: #187445;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 14px;
   display: inline-block;
-  left: 0;
-  right: 0;
-  font-size: 16px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+/* ===== View Details Link ===== */
+.project-link {
+  font-size: 13px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.8);
+  color: #17723e;
+  text-decoration: none;
 }
 
-.portfolio .portfolio-content .portfolio-info .preview-link,
-.portfolio .portfolio-content .portfolio-info .details-link {
+.project-link:hover {
+  color: #0b4b26;
+  text-decoration: underline;
+}
+
+/* ============================
+   ✅ Modal Styles
+============================ */
+.project-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  z-index: 5000;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal box */
+.project-modal-content {
+  width: 90%;
+  max-width: 800px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  animation: modalIn .25s ease;
+}
+
+/* Modal Close Button */
+.project-close {
   position: absolute;
-  left: calc(50% - 40px);
+  top: 12px;
+  right: 16px;
   font-size: 26px;
-  top: calc(50% - 14px);
+  font-weight: 700;
+  border: none;
+  background: #fff;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  line-height: 34px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
+}
+
+.project-close:hover {
+  background: #ef5350;
   color: #fff;
-  transition: 0.3s;
-  line-height: 1.2;
 }
 
-.portfolio .portfolio-content .portfolio-info .preview-link:hover,
-.portfolio .portfolio-content .portfolio-info .details-link:hover {
-  color: var(--accent-color);
+/* Modal image */
+.project-modal-img img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
 }
 
-.portfolio .portfolio-content .portfolio-info .details-link {
-  left: 50%;
-  font-size: 34px;
-  line-height: 0;
+/* Modal content */
+.project-modal-body {
+  padding: 25px;
 }
 
-.portfolio .portfolio-content:hover .portfolio-info {
-  opacity: 1;
+/* Modal tags */
+.project-modal-body .tech-tags span {
+  padding: 6px 12px;
+  margin-right: 8px;
 }
 
-.portfolio .portfolio-content:hover img {
-  transform: scale(1.1);
+/* Live Demo Button */
+.live-demo-btn {
+  display: inline-block;
+  margin-top: 14px;
+  background: #2e7d32;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.live-demo-btn:hover {
+  background: #1d5b23;
+}
+
+/* ===== Animations ===== */
+@keyframes modalIn {
+  from {opacity: 0; transform: scale(.92);}
+  to   {opacity: 1; transform: scale(1);}
+}
+
+.project-modal.show {
+  display: flex;
+  animation: fadeInBG .25s ease;
+}
+
+.project-modal.hide {
+  animation: fadeOutBG .25s ease forwards;
+}
+
+@keyframes fadeInBG {
+  from {opacity: 0;}
+  to   {opacity: 1;}
+}
+
+@keyframes fadeOutBG {
+  from {opacity: 1;}
+  to   {opacity: 0;}
+}
+
+.project-modal-content.hide {
+  animation: modalOut .25s ease forwards;
+}
+
+@keyframes modalOut {
+  from {opacity: 1; transform: scale(1);}
+  to   {opacity: 0; transform: scale(.92);}
+}
+
+/* Ensure the card content fills height */
+.project-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Push the link to the bottom */
+.project-link {
+  margin-top: auto; /* pushes link to bottom */
+  font-size: 13px;
+  font-weight: 600;
+  color: #17723e;
+  text-decoration: none;
+  align-self: flex-end; /* moves to right */
+}
+
+.project-link:hover {
+  color: #0b4b26;
+  text-decoration: underline;
 }
 
 /*--------------------------------------------------------------
