@@ -747,16 +747,27 @@ section,
 
 
 .skill-tabs .tab {
-  border: none !important;          
-  outline: none !important;        
-  box-shadow: none !important;     
-}
-
-.skill-tabs .tab.active,
-.skill-tabs .tab:hover {
+  padding: 10px 22px;
+  margin: 4px;
+  font-weight: 600;
+  font-size: 15px;
+  background: #f1f1f1;
+  border-radius: 25px;
   border: none !important;
   outline: none !important;
-  box-shadow: none !important;
+  box-shadow: 0 0 0 rgba(0,0,0,0) !important;
+  transition: all 0.25s ease;
+}
+
+.skill-tabs .tab.active {
+  background: linear-gradient(135deg, #007bff, #00d4ff);
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(0, 128, 255, 0.3);
+}
+
+.skill-tabs .tab:hover {
+  background: #e1e1e1;
+  transform: translateY(-2px);
 }
 
 @keyframes fadeUp {
@@ -765,14 +776,11 @@ section,
 }
 
 /* ✅ Mobile improvements */
+/* Mobile improvements */
 @media (max-width: 768px) {
-  .skill-tabs {
-    gap: 8px;
-  }
-
   .skill-tabs .tab {
-    font-size: 13px;
-    padding: 8px 16px;
+    padding: 8px 18px;
+    font-size: 14px;
   }
 }
 
