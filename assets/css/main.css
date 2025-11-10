@@ -747,16 +747,16 @@ section,
 
 
 .skill-tabs .tab {
-  white-space: nowrap;  /* prevents text breaking */
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 25px;
+  border: none !important;          
+  outline: none !important;        
+  box-shadow: none !important;     
 }
 
 .skill-tabs .tab.active,
 .skill-tabs .tab:hover {
-  background: linear-gradient(135deg, #007bff, #00d4ff);
-  color: white;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 @keyframes fadeUp {
