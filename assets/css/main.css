@@ -827,12 +827,6 @@ section,
 # Portfolio Section — FINAL CLEAN VERSION
 --------------------------------------------------------------*/
 
-/* ===== Grid layout (3 cards per row) ===== */
-.col-lg-4.col-md-6 {
-  flex: 0 0 calc(33.333% - 20px);
-  max-width: calc(33.333% - 20px);
-  margin-bottom: 20px;
-}
 
 /* ===== Project Card ===== */
 .project-card {
@@ -907,6 +901,75 @@ section,
 .project-link:hover {
   color: #0b4b26;
   text-decoration: underline;
+}
+
+
+/* Fix project card responsiveness */
+.project-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 15px;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Make images scalable */
+.project-img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+/* Ensure spacing works in Isotope */
+.isotope-layout .col-lg-4,
+.isotope-layout .col-md-6 {
+  padding: 0 10px !important;
+}
+
+/* REMOVE horizontal scrolling */
+html, body {
+  overflow-x: hidden !important;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+
+  .project-card {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #portfolio .col-lg-4,
+  #portfolio .col-md-6 {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .isotope-layout {
+    width: 100% !important;
+  }
+}
+
+
+/* Desktop column spacing */
+#portfolio .col-lg-4,
+#portfolio .col-md-6 {
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+/* Mobile: Full width columns */
+@media (max-width: 768px) {
+  #portfolio .col-lg-4,
+  #portfolio .col-md-6 {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+  }
 }
 
 /* ============================
