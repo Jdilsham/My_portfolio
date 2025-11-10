@@ -1,39 +1,111 @@
 <?php
+// Enable error reporting for debugging (optional)
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-// Your receiving email address
-$receiving_email_address = 'janitha1717@gmail.com';
+// Start session (needed for session variables)
+session_start();
+require "../../connection.php";
 
-// Include the PHP Email Form library
-if (file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php')) {
-  include($php_email_form);
-} else {
-  die('Unable to load the "PHP Email Form" Library!');
+// Include PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Adjust the path to the autoload file
+require __DIR__ . '../../../vendor/autoload.php'; // Adjust relative path
+
+// Function to sanitize input data
+function validate($data)
+{
+    return htmlspecialchars(stripslashes(trim($data)));
 }
 
-// Create the email form object
-$contact = new PHP_Email_Form;
-$contact->ajax = true;
+// Check if form fields are set
+if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
 
-// Set email details
-$contact->to = $receiving_email_address;
-$contact->from_name = $_POST['name'];
-$contact->from_email = $_POST['email'];
-$contact->subject = $_POST['subject'];
+    // Sanitize the input data
+    $name = validate($_POST['name']);
+    $email = validate($_POST['email']);
+    $subject = validate($_POST['subject']);
+    $message = validate($_POST['message']);
 
-// SMTP (Gmail)
-$contact->smtp = array(
-  'host' => 'smtp.gmail.com',
-  'username' => 'janithadilsham@gmail.com',
-  'password' => 'ptdazwhvnkfmuzli',
-  'port' => '587'
-);
+    // Prepare the SQL query to insert data into the database
+    $stmt = $conn->prepare("INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssss", $name, $email, $subject, $message);
 
-// Add message fields
-$contact->add_message($_POST['name'], 'Name');
-$contact->add_message($_POST['email'], 'Email');
-$contact->add_message($_POST['message'], 'Message', 10);
+    // Execute the query
+    if ($stmt->execute()) {
+        // Data inserted successfully, send email notification using Gmail SMTP
 
-// Send email
-echo $contact->send();
+        // Create a new PHPMailer instance
+        $mail = new PHPMailer(true);
 
-?>
+        try {
+            // Enable SMTP debugging
+            //$mail->SMTPDebug = 2; // Enables detailed SMTP debug output
+            //$mail->Debugoutput = 'html'; // Output in HTML format for better readability
+
+            // SMTP settings
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';  // Gmail's SMTP server
+            $mail->SMTPAuth = true;
+            $mail->Username = 'janithadilsham@gmail.com';  // Your Gmail address
+            $mail->Password = 'ptdazwhvnkfmuzli';  // Your Gmail password or app-specific password
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+
+            // Set the "From" email (Gmail address)
+            $mail->setFrom('janithadilsham@gmail.com', $name);
+            $mail->addAddress('janitha1717@gmail.com', 'Janitha Dilsham');  // Recipient email
+
+            // Subject and email body content
+            $mail->Subject = 'New Message from Contact Form';
+
+            // Set the email format to HTML
+            $mail->isHTML(true);
+            $mail->CharSet = 'UTF-8';  // Set character encoding for the email
+
+            // HTML body content
+            $mail->Body = "<html>
+                <head>
+                    <title>New Message from Contact Form</title>
+                </head>
+                <body>
+                    <h2>Contact Form Submission</h2>
+                    <p><strong>Name:</strong> " . $name . "</p>
+                    <p><strong>Email:</strong> " . $email . "</p>
+                    <p><strong>Subject:</strong> " . $subject . "</p>
+                    <p><strong>Message:</strong></p>
+                    <p>" . nl2br($message) . "</p>  <!-- nl2br converts newlines to <br> -->
+                </body>
+            </html>";
+
+            // Send the email
+            $mail->send();
+
+            // Set success message and redirect
+            echo '<script type="text/javascript">
+                    alert("Message has been sent successfully.");
+                    window.location.href = "../contact.html"; // Adjust the page URL if needed
+                </script>';
+        } catch (Exception $e) {
+            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        }
+    } else {
+        $_SESSION['form_status'] = 'error';
+        $_SESSION['error_message'] = 'Failed to submit the form. Please try again later.';
+        header("Location: ../contact.html");
+        exit();
+    }
+
+    // Close the prepared statement
+    $stmt->close();
+} else {
+    $_SESSION['form_status'] = 'error';
+    $_SESSION['error_message'] = 'Please fill in all fields.';
+    header("Location: ../contact.html");
+    exit();
+}
+
+// Close the database connection
+$conn->close();
