@@ -56,10 +56,9 @@ try {
     // Send email
     $mail->send();
 
-    echo "<script>
-        alert('Message sent successfully!');
-        window.location.href = '../contact.html';
-    </script>";
+    echo "OK";
+    exit();
+
     
 } catch (Exception $e) {
     echo "Mailer Error: " . $mail->ErrorInfo;
