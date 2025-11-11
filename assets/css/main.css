@@ -1360,13 +1360,15 @@ html, body {
 
 
 /* ==========================================================
-   ✅ FUTURISTIC DYNAMIC BACKGROUND
+   ✅ FUTURISTIC RESPONSIVE BACKGROUND (DESKTOP + MOBILE)
    ========================================================== */
 
 .gradient-bg {
   position: fixed;
   top: 0;
-  left: 300px; /* stay behind content, not sidebar */
+
+  /* ✅ Desktop layout (sidebar 300px) */
+  left: 300px;
   width: calc(100vw - 300px);
   height: 100vh;
 
@@ -1374,107 +1376,102 @@ html, body {
   pointer-events: none;
   overflow: hidden;
 
-  /* ✨ layered gradient + color clouds */
+  /* ✅ Main gradient layer */
   background:
-    radial-gradient(circle at 20% 30%, rgba(45, 136, 255, 0.45), transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(255, 80, 220, 0.45), transparent 60%),
+    radial-gradient(circle at 20% 30%, rgba(45,136,255,0.45), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(255,80,220,0.45), transparent 60%),
     linear-gradient(135deg, #0a2cf0, #1579ff, #00eaff, #6a00ff, #b300ff);
-
+  
   background-size: 200% 200%;
   animation: gradientShift 18s ease infinite;
 
-  opacity: 0.1;
+  opacity: 0.15;
   filter: blur(2px);
 }
 
-/* ✅ floating glow blobs */
-.gradient-bg::before,
-.gradient-bg::after {
-  content: "";
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.4;
-  animation: floatGlow 22s infinite ease-in-out;
+/* ✅ Mobile: full screen background */
+@media (max-width: 1199px) {
+  .gradient-bg {
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    filter: blur(1px);
+    opacity: 0.18;
+  }
 }
 
+/* ==========================================================
+   ✅ LAYERS (mobile-compatible using ::before & ::after)
+   ========================================================== */
+
+/* ✅ GLOW BLOBS + PARTICLES (layer 1) */
 .gradient-bg::before {
-  background: rgba(255, 255, 255, 0.25);
-  top: -20%;
-  left: 10%;
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    /* Glow blobs */
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,0.20), transparent 60%),
+    radial-gradient(circle at 85% 80%, rgba(0,255,240,0.25), transparent 60%),
+
+    /* Soft particles */
+    radial-gradient(circle, rgba(255,255,255,0.5) 2px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.35) 2px, transparent 2px),
+    radial-gradient(circle, rgba(255,255,255,0.25) 2px, transparent 2px);
+
+  background-size:
+    600px 600px,
+    600px 600px,
+    4px 4px,
+    5px 5px,
+    6px 6px;
+
+  background-position:
+    10% 20%,
+    90% 80%,
+    0 0,
+    60px 120px,
+    120px 60px;
+
+  filter: blur(1px);
+  opacity: 0.35;
+
+  animation: particleFloat 22s linear infinite;
 }
 
+/* ✅ GRID + LIGHT BEAM (layer 2) */
 .gradient-bg::after {
-  background: rgba(0, 255, 240, 0.3);
-  bottom: -20%;
-  right: 10%;
-}
-
-/* ✅ NEON GRID */
-.gradient-bg::grid {
   content: "";
   position: absolute;
   inset: 0;
-  background-image:
+
+  background:
+    /* Neon Grid */
     linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 60px 60px;
-  animation: gridMove 18s linear infinite;
-  z-index: -1;
-}
+    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px),
 
-/* ✅ HOLOGRAM PARTICLES */
-.gradient-bg::particles {
-  content: "";
-  position: absolute;
-  inset: 0;
+    /* Light Beam */
+    linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255,255,255,0.15) 50%,
+      transparent 100%
+    );
 
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.6) 2px, transparent 2px),
-    radial-gradient(circle, rgba(255,255,255,0.4) 2px, transparent 2px),
-    radial-gradient(circle, rgba(255,255,255,0.3) 2px, transparent 2px);
+  background-size:
+    60px 60px,
+    60px 60px,
+    200% 200%;
 
-  background-size: 3px 3px, 4px 4px, 5px 5px;
-  background-position: 0 0, 50px 100px, 120px 40px;
+  background-repeat: repeat;
 
-  opacity: 0.25;
-  animation: particleFloat 16s infinite linear;
-}
+  mix-blend-mode: screen;
+  opacity: 0.15;
 
-/* ✅ LIGHT BEAM SWEEP */
-.gradient-bg::lightbeam {
-  content: "";
-  position: absolute;
-
-  top: 0;
-  left: -50%;
-  width: 200%;
-  height: 100%;
-
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.18) 50%,
-    transparent 100%
-  );
-
-  transform: skewX(-20deg);
-
-  animation: beamSweep 12s infinite ease-in-out;
-}
-
-/* ✅ PREMIUM NOISE TEXTURE */
-.gradient-bg::noise {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgTzjjl8AAAAASUVORK5CYII=");
-  opacity: 0.07;
-
-  mix-blend-mode: overlay;
+  animation:
+    gridMove 26s linear infinite,
+    beamSweep 14s ease-in-out infinite;
 }
 
 /* ==========================================================
@@ -1487,20 +1484,15 @@ html, body {
   100% { background-position: 0% 50%; }
 }
 
-@keyframes floatGlow {
+@keyframes particleFloat {
   0%   { transform: translateY(0px) translateX(0px); }
-  50%  { transform: translateY(40px) translateX(-40px); }
+  50%  { transform: translateY(-40px) translateX(40px); }
   100% { transform: translateY(0px) translateX(0px); }
 }
 
 @keyframes gridMove {
   0%   { transform: translateY(0px); }
   100% { transform: translateY(-120px); }
-}
-
-@keyframes particleFloat {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-80px); }
 }
 
 @keyframes beamSweep {
@@ -1510,8 +1502,9 @@ html, body {
 }
 
 /* ==========================================================
-   ✅ Content stays above background
+   ✅ Ensure content stays above background
    ========================================================== */
+
 body, main, section, .section, .page-title {
   background: transparent !important;
 }
@@ -1524,12 +1517,3 @@ main, section, .section {
 :root {
   --background-color: transparent !important;
 }
-
-@media (max-width: 768px) {
-  .gradient-bg {
-    filter: blur(1px);
-    opacity: 0.15;
-  }
-}
-
-
