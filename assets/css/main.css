@@ -1396,7 +1396,7 @@ html, body {
   height: 700px;
   border-radius: 50%;
   filter: blur(120px);
-  opacity: 0.2;
+  opacity: 0.4;
   animation: floatGlow 22s infinite ease-in-out;
 }
 
@@ -1439,7 +1439,7 @@ html, body {
   background-size: 3px 3px, 4px 4px, 5px 5px;
   background-position: 0 0, 50px 100px, 120px 40px;
 
-  opacity: 0.15;
+  opacity: 0.25;
   animation: particleFloat 16s infinite linear;
 }
 
