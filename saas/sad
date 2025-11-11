@@ -489,7 +489,7 @@ h6 {
 section,
 .section {
   color: var(--default-color);
-  background: transparent !important;
+  background-color: var(--background-color);
   padding: 60px 0;
   overflow: clip;
 }
@@ -550,7 +550,7 @@ section,
 
 .hero:before {
   content: "";
-  background: rgba(0,0,0,0.25) !important;
+  background: color-mix(in srgb, var(--background-color), transparent 70%);
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -1357,173 +1357,4 @@ html, body {
   padding: 0;
   color: color-mix(in srgb, var(--default-color), transparent 30%);
 }
-
-
-/* ==========================================================
-   ✅ FUTURISTIC DYNAMIC BACKGROUND
-   ========================================================== */
-
-.gradient-bg {
-  position: fixed;
-  top: 0;
-  left: 300px; /* stay behind content, not sidebar */
-  width: calc(100vw - 300px);
-  height: 100vh;
-
-  z-index: -1 !important;
-  pointer-events: none;
-  overflow: hidden;
-
-  /* ✨ layered gradient + color clouds */
-  background:
-    radial-gradient(circle at 20% 30%, rgba(45, 136, 255, 0.45), transparent 60%),
-    radial-gradient(circle at 80% 70%, rgba(255, 80, 220, 0.45), transparent 60%),
-    linear-gradient(135deg, #0a2cf0, #1579ff, #00eaff, #6a00ff, #b300ff);
-
-  background-size: 200% 200%;
-  animation: gradientShift 18s ease infinite;
-
-  opacity: 0.1;
-  filter: blur(2px);
-}
-
-/* ✅ floating glow blobs */
-.gradient-bg::before,
-.gradient-bg::after {
-  content: "";
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.2;
-  animation: floatGlow 22s infinite ease-in-out;
-}
-
-.gradient-bg::before {
-  background: rgba(255, 255, 255, 0.25);
-  top: -20%;
-  left: 10%;
-}
-
-.gradient-bg::after {
-  background: rgba(0, 255, 240, 0.3);
-  bottom: -20%;
-  right: 10%;
-}
-
-/* ✅ NEON GRID */
-.gradient-bg::grid {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-  background-size: 60px 60px;
-  animation: gridMove 18s linear infinite;
-  z-index: -1;
-}
-
-/* ✅ HOLOGRAM PARTICLES */
-.gradient-bg::particles {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background-image:
-    radial-gradient(circle, rgba(255,255,255,0.6) 2px, transparent 2px),
-    radial-gradient(circle, rgba(255,255,255,0.4) 2px, transparent 2px),
-    radial-gradient(circle, rgba(255,255,255,0.3) 2px, transparent 2px);
-
-  background-size: 3px 3px, 4px 4px, 5px 5px;
-  background-position: 0 0, 50px 100px, 120px 40px;
-
-  opacity: 0.15;
-  animation: particleFloat 16s infinite linear;
-}
-
-/* ✅ LIGHT BEAM SWEEP */
-.gradient-bg::lightbeam {
-  content: "";
-  position: absolute;
-
-  top: 0;
-  left: -50%;
-  width: 200%;
-  height: 100%;
-
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.18) 50%,
-    transparent 100%
-  );
-
-  transform: skewX(-20deg);
-
-  animation: beamSweep 12s infinite ease-in-out;
-}
-
-/* ✅ PREMIUM NOISE TEXTURE */
-.gradient-bg::noise {
-  content: "";
-  position: absolute;
-  inset: 0;
-
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgTzjjl8AAAAASUVORK5CYII=");
-  opacity: 0.07;
-
-  mix-blend-mode: overlay;
-}
-
-/* ==========================================================
-   ✅ ANIMATIONS
-   ========================================================== */
-
-@keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes floatGlow {
-  0%   { transform: translateY(0px) translateX(0px); }
-  50%  { transform: translateY(40px) translateX(-40px); }
-  100% { transform: translateY(0px) translateX(0px); }
-}
-
-@keyframes gridMove {
-  0%   { transform: translateY(0px); }
-  100% { transform: translateY(-120px); }
-}
-
-@keyframes particleFloat {
-  0%   { transform: translateY(0); }
-  100% { transform: translateY(-80px); }
-}
-
-@keyframes beamSweep {
-  0%   { transform: translateX(-100%) skewX(-20deg); }
-  60%  { transform: translateX(100%)  skewX(-20deg); }
-  100% { transform: translateX(100%)  skewX(-20deg); }
-}
-
-/* ==========================================================
-   ✅ Content stays above background
-   ========================================================== */
-body, main, section, .section, .page-title {
-  background: transparent !important;
-}
-
-main, section, .section {
-  position: relative;
-  z-index: 10 !important;
-}
-
-:root {
-  --background-color: transparent !important;
-}
-
-
 
