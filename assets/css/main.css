@@ -1525,5 +1525,11 @@ main, section, .section {
   --background-color: transparent !important;
 }
 
+@media (max-width: 768px) {
+  .gradient-bg {
+    filter: blur(1px);
+    opacity: 0.15;
+  }
+}
 
 
