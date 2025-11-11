@@ -1517,3 +1517,14 @@ main, section, .section {
 :root {
   --background-color: transparent !important;
 }
+
+/* ✅ Force transparent backgrounds for ALL sections on mobile */
+@media (max-width: 1199px) {
+
+  body, main, section, .section, .page-title,
+  .stats, .about, .skills, .resume, .contact,
+  #about, #skills, #resume, #contact {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+}
